@@ -82,3 +82,5 @@ Dependencies
 * In puppet 3.0.0, hiera became a standard function call so it is included by default in your puppet installation. Before 3.0.0, you must install the hiera-puppet module.
 
 * stdlib
+
+* Requires parser = future and puppet >= 3.2
