@@ -17,7 +17,6 @@ define users::setup($hash) {
       ia_load_module        => $hash[$name]['ia_load_module'],
       key_membership        => $hash[$name]['key_membership'],
       keys                  => $hash[$name]['keys'],
-      loginclass            => $hash[$name]['loginclass'],
       managehome            => $hash[$name]['managehome'],
       membership            => $hash[$name]['membership'],
       password              => $hash[$name]['password'],
