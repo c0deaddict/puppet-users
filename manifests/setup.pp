@@ -54,7 +54,8 @@ define users::setup($hash) {
 
       if is_hash($resources) {
         $resources.each |$key, $value| {
-          create_resources($key, prefix_keys($value, "${name}-"), {
+          # all user resources are prefixed by the user to make them globally unique
+          create_resources($key, prefix_user_resources($value, "${name}-"), {
             user => $name,
             home => $actual_home,
           })
