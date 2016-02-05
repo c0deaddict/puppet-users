@@ -48,7 +48,10 @@ define users::setup($hash) {
     $resources = $hash[$name]['resources']
     if $resources {
       $actual_home = $hash[$name]['home'] ? {
-        undef   => "/home/${name}",
+        undef   => $name ? {
+          'root'  => '/root',
+          default => "/home/${name}",
+        },
         default => $hash[$name]['home'],
       }
 
