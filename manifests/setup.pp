@@ -59,7 +59,7 @@ define users::setup($hash) {
         $resources.each |$key, $value| {
           if $key == 'identity' {
             $value.each |$class, $params| {
-              create_resources($class, {$user => $params}, {
+              create_resources($class, {$name => $params}, {
                 user => $name,
                 home => $actual_home,
               })
