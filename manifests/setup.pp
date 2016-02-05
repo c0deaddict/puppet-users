@@ -54,11 +54,20 @@ define users::setup($hash) {
 
       if is_hash($resources) {
         $resources.each |$key, $value| {
-          # all user resources are prefixed by the user to make them globally unique
-          create_resources($key, prefix_user_resources($value, "${name}-"), {
-            user => $name,
-            home => $actual_home,
-          })
+          if $key == 'identity' {
+            $value.each |$class, $params| {
+              create_resources($class, {$user => $params}, {
+                user => $name,
+                home => $actual_home,
+              })
+            }
+          } else {
+            # all user resources are prefixed by the user to make them globally unique
+            create_resources($key, prefix_user_resources($value, "${name}-"), {
+              user => $name,
+              home => $actual_home,
+            })
+          }
         }
       } else {
         notify { "user resources for ${name} must be in hash form": }
