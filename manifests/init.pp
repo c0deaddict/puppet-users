@@ -5,9 +5,11 @@ define users(
 
   include stdlib
 
-  case $match {
-    'all','any': { $_match = 'all' }
-    'first':     { $_match = 'first' }
+  $_match = $match ? {
+    'any'   => 'all',
+    'all'   => 'all',
+    'first' => 'first',
+    default => 'all',
   }
 
   if $hash {
@@ -18,21 +20,24 @@ define users(
     # only
     case $_match {
       'all': {
-      $_hash = hiera_hash("users_${name}", undef)
+        $_hash = hiera_hash("users_${name}", undef)
       }
       'first': {
-      $_hash = hiera("users_${name}", undef)
+        $_hash = hiera("users_${name}", undef)
+      }
+      default {
+        fail('unreachable')
       }
     }
   }
   
   if $_hash {
     $users = keys($_hash)
-    users::setup { 
+    users::setup {
       $users:
-        hash       => $_hash;
+        hash => $_hash;
     }
   } else {
-    notify { "no data for resource '$name' title '$title'": }
+    notify { "no data for resource '${name}' title '${title}'": }
   }
 }
