@@ -59,17 +59,19 @@ define users::setup($hash) {
         $resources.each |$key, $value| {
           if $key == 'identity' {
             $value.each |$class, $params| {
-              create_resources($class, {$user => $params}, {
+              create_resources($class, {$name => $params}, {
                 user => $name,
                 home => $actual_home,
               })
             }
           } else {
-            # all user resources are prefixed by the user to make them globally unique
-            create_resources($key, prefix_user_resources($value, "${name}-"), {
-              user => $name,
-              home => $actual_home,
-            })
+            $value.each |$resource_name, $params| {
+              create_resources($key, {"${name}-${resource_name}" => $params}, {
+                user          => $name,
+                home          => $actual_home,
+                resource_name => $resource_name,
+              })
+            }
           }
         }
       } else {
