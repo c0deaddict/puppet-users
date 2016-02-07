@@ -65,11 +65,13 @@ define users::setup($hash) {
               })
             }
           } else {
-            # all user resources are prefixed by the user to make them globally unique
-            create_resources($key, prefix_user_resources($value, "${name}-"), {
-              user => $name,
-              home => $actual_home,
-            })
+            $value.each |$resource_name, $params| {
+              create_resources($key, {"${name}-${resource_name}" => $params}, {
+                user          => $name,
+                home          => $actual_home,
+                resource_name => $resource_name,
+              })
+            }
           }
         }
       } else {
