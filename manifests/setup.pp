@@ -38,7 +38,7 @@ define users::setup($hash) {
     $ssh_authorized_keys = $hash[$name]['ssh_authorized_keys']
     if $ssh_authorized_keys {
       if is_hash($ssh_authorized_keys) {
-        $prefixed_ssh_authorized_keys = prefix_keys($ssh_authorized_keys, "${name}-")
+        $prefixed_ssh_authorized_keys = prefix($ssh_authorized_keys, "${name}-")
         create_resources('Ssh_authorized_key', $prefixed_ssh_authorized_keys, {user => $name})
       } else {
         notify { "user ssh key data for ${name} must be in hash form": }
