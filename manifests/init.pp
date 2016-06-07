@@ -25,7 +25,7 @@ define users(
       'first': {
         $_hash = hiera("users_${name}", undef)
       }
-      default {
+      default: {
         fail('unreachable')
       }
     }
